@@ -1,0 +1,8 @@
+order_id,order_date,category,price,quantity,discount,status,distance
+1,2026-03-01,Electronics,1200.50,1,0.1,delivered,15.5
+2,2026-03-05,Home,450.00,2,0.0,delivered,5.0
+3,2026-03-10,Electronics,800.00,1,0.05,cancelled,25.2
+4,2026-03-12,Books,150.25,3,0.15,delivered,10.0
+5,2026-03-15,Home,2100.00,1,0.0,delivered,45.0
+6,2026-03-20,Books,50.00,5,0.0,pending,2.5
+7,2026-03-22,Electronics,3000.00,1,0.2,delivered,60.8

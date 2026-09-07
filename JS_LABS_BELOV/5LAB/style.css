@@ -1,0 +1,157 @@
+:root {
+    --green-light: #e8f5e9;
+    --green-text: #2e7d32;
+    --red-light: #ffebee;
+    --red-text: #c62828;
+    --primary: #4a90e2;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f7fa;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+h1, h2, h3 {
+    margin-top: 0;
+}
+
+.balance-container {
+    background: #f0f4f8;
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.transaction-form {
+    display: grid;
+    gap: 15px;
+    margin-bottom: 30px;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input, select, textarea {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+textarea {
+    resize: vertical;
+    height: 60px;
+}
+
+button {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.error-message {
+    color: var(--red-text);
+    font-size: 12px;
+    margin-top: 3px;
+    height: 15px;
+}
+
+.table-wrapper {
+    overflow-x: auto;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+th {
+    background-color: #f8f9fa;
+}
+
+/* Шаг 4: Цветовая разметка строк */
+.row-income {
+    background-color: var(--green-light);
+    color: var(--green-text);
+}
+
+.row-expense {
+    background-color: var(--red-light);
+    color: var(--red-text);
+}
+
+.delete-btn {
+    background-color: #e53935;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.delete-btn:hover {
+    background-color: #b71c1c;
+}
+
+tr {
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.details-block {
+    margin-top: 25px;
+    padding: 15px;
+    background: #fff8e1;
+    border-left: 5px solid #ffb300;
+    border-radius: 4px;
+}
+
+.hidden {
+    display: none;
+}
+
+.detail-desc-text {
+    background: white;
+    padding: 10px;
+    border: 1px solid #ffe082;
+    border-radius: 4px;
+    white-space: pre-wrap;
+}

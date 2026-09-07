@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Лавка Лавочника D&D{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+    <header>
+        <h1>Лавка расходников «Сумка перегрина»</h1>
+        <p><i>Свиток заказов и учета припасов для искателей приключений</i></p>
+    </header>
+
+    <nav>
+        <a href="{{ url_for('index') }}">Главная</a>
+        <a href="{{ url_for('items_list') }}">Журнал заказов</a>
+        <a href="{{ url_for('add_order') }}">Новая закупка</a>
+        <a href="{{ url_for('stats') }}">Архив и Аналитика</a>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer style="text-align: center; margin-top: 40px; font-size: 13px; color: #795548;">
+        <p>&copy; 2026 Лавка расходников «Сумка перегрина»</p>
+    </footer>
+</body>
+</html>

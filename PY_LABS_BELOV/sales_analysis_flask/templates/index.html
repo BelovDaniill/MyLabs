@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Панель анализа продаж</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="top-navbar">
+        <div class="nav-content">
+            <h2>Альтернативное задание: Белов Даниил</h2>
+            <form method="POST" class="filter-form">
+                <label for="city_filter">Фильтрация по городу:</label>
+                <select name="city_filter" id="city_filter" onchange="this.form.submit()">
+                    <option value="Все">Все города</option>
+                    {% for city in cities %}
+                    <option value="{{ city }}" {% if city == selected_city %}selected{% endif %}>{{ city }}</option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
+    </header>
+
+    <div class="main-content">
+        <div class="content-header">
+            <h1>Анализ заказов интернет-магазина</h1>
+            {% if error %}
+                <div class="error-msg">{{ error }}</div>
+            {% endif %}
+        </div>
+
+        <div class="stats-container">
+            <div class="card">
+                <h3>Всего заказов</h3>
+                <p class="value">{{ stats.total_orders }}</p>
+            </div>
+            <div class="card">
+                <h3>Общий доход</h3>
+                <p class="value">${{ "{:,.2f}".format(stats.total_revenue) }}</p>
+            </div>
+            <div class="card">
+                <h3>Топ категория</h3>
+                <p class="value">{{ stats.top_category }}</p>
+            </div>
+            <div class="card">
+                <h3>Лучший товар</h3>
+                <p class="value">{{ stats.best_product }}</p>
+            </div>
+            <div class="card highlight">
+                <h3>Лидирующий город</h3>
+                <p class="value">{{ stats.top_city }}</p>
+            </div>
+        </div>
+
+        <div class="table-wrapper">
+            <h2>График продаж по категориям</h2>
+            {% if chart_image %}
+                <img src="data:image/png;base64,{{ chart_image }}" alt="График продаж" style="width:100%; border-radius: 8px;">
+            {% else %}
+                <p>График недоступен</p>
+            {% endif %}
+        </div>
+
+        <div class="tables-section">
+            <div class="table-wrapper">
+                <h2>Сводная таблица по категориям</h2>
+                <div class="scr">
+                    {{ pivot_table | safe }}
+                </div>
+            </div>
+
+            <div class="table-wrapper">
+                <h2>Детальный список заказов</h2>
+                <div class="scrollable">
+                    {{ main_table | safe }}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

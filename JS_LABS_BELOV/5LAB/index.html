@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Учет личных финансов</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Учет личных финансов</h1>
+
+        <div class="balance-container">
+            <h3>Общий баланс: <span id="total-amount">0:00</span> тенге</h3>
+        </div>
+
+        <form id="transaction-form" class="transaction-form">
+            <div class="form-group">
+                <label for="amount">Сумма:</label>
+                <input type="number" id="amount" step="0.01" placeholder="Например: 500 или -150">
+                <span class="error-message" id="error-amount"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Категория:</label>
+                <select id="category">
+                    <option value="">Выберите категорию</option>
+                    <option value="Продукты">Продукты</option>
+                    <option value="Зарплата">Зарплата</option>
+                    <option value="Транспорт">Транспорт</option>
+                    <option value="Развлечения">Развлечения</option>
+                </select>
+                <span class="error-message" id="error-category"></span>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Описание:</label>
+                <textarea id="description" placeholder="Введите подробное описание транзакции..."></textarea>
+                <span class="error-message" id="error-description"></span>
+            </div>
+
+            <button type="submit">Добавить транзакцию</button>
+        </form>
+
+        <h2>История транзакций</h2>
+        <div class="table-wrapper">
+            <table id="transactions-table">
+                <thead>
+                    <tr>
+                        <th>Дата и Время</th>
+                        <th>Категория</th>
+                        <th>Краткое описание</th>
+                        <th>Действие</th>
+                    </tr>
+                </thead>
+                <tbody id="transactions-body">
+                </tbody>
+            </table>
+        </div>
+
+        <div id="details-block" class="details-block hidden">
+            <h3>Детали транзакции</h3>
+            <p><strong>ID:</strong> <span id="detail-id"></span></p>
+            <p><strong>Дата:</strong> <span id="detail-date"></span></p>
+            <p><strong>Сумма:</strong> <span id="detail-amount"></span> тенге</p>
+            <p><strong>Категория:</strong> <span id="detail-category"></span></p>
+            <p><strong>Полное описание:</strong></p>
+            <p id="detail-desc-text" class="detail-desc-text"></p>
+        </div>
+    </div>
+
+    <script type="module" src="src/index.js"></script>
+</body>
+</html>

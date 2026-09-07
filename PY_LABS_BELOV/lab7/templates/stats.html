@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Свиток Аналитики и Статистики Лавки</h2>
+    <p><i>Здесь собрана вся экономика лавки «Сумка перегрина».</i></p>
+    
+    <div class="stats-box">
+        <div>Всего заказов: <br><span style="color:#8b5a2b; font-size: 24px;">{{ total_orders }}</span></div>
+        <div>В обработке: <br><span style="color:#d95306; font-size: 24px;">{{ in_progress }}</span></div>
+        <div>Выручка лавки: <br><span style="color:#b8a131; font-size: 24px;">{{ total_revenue }} зм</span></div>
+    </div>
+
+    <div style="background-color: white; padding: 20px; border: 1px solid #d7ccc8; border-radius: 5px;">
+        <h3>Дополнительные метрики гильдии торговцев:</h3>
+        <ul>
+            <li style="margin-bottom: 10px;"><b>Средний чек заказа:</b> {{ "%.2f"|format(avg_revenue) }} золотых монет.</li>
+            <li style="margin-bottom: 10px;"><b>Самый популярный заказываемый объем:</b> {{ max_qty if max_qty else 0 }} шт. в одном заказе.</li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

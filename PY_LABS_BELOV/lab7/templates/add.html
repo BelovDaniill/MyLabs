@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container" style="max-width: 500px; margin: 0 auto;">
+    <h2>Новая закупка снаряжения</h2>
+    <form action="{{ url_for('add_order') }}" method="POST">
+        <p>
+            <label><b>На имя героя / отряда:</b></label><br>
+            <input type="text" name="customer_name" style="width:95%; padding: 8px; margin-top:5px;" required>
+        </p>
+        <p>
+            <label><b>Выберите магический товар:</b></label><br>
+            <select name="item_id" style="width:100%; padding: 8px; margin-top:5px;">
+                {% for item in items %}
+                    <option value="{{ item.id }}">{{ item.name }} ({{ item.price }} зм)</option>
+                {% endfor %}
+            </select>
+        </p>
+        <p>
+            <label><b>Количество (шт):</b></label><br>
+            <input type="number" name="quantity" value="1" min="1" style="width:95%; padding: 8px; margin-top:5px;" required>
+        </p>
+        <button type="submit" class="btn btn-add">Записать заказ в свиток</button>
+    </form>
+</div>
+{% endblock %}

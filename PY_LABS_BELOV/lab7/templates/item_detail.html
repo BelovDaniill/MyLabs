@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Заказ №{{ order.id }} - Детали{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2>Детальный осмотр свитка: Заказ №{{ order.id }}</h2>
+    <div style="background: #fff; padding: 20px; border: 1px dashed #8b5a2b; border-radius: 5px; line-height: 1.8;">
+        <p><b>Имя героя / Отряд:</b> {{ order.customer_name }}</p>
+        <p><b>Заказанный товар:</b> {{ order.item_name }}</p>
+        <p><b>Описание товара:</b> <i>{{ order.item_desc }}</i></p>
+        <p><b>Цена за единицу:</b> {{ order.price }} золотых монет</p>
+        <p><b>Количество в заказе:</b> {{ order.quantity }} шт.</p>
+        <hr style="border: 0; border-top: 1px solid #d7ccc8;">
+        <p style="font-size: 18px;"><b>Итоговая стоимость:</b> <span style="color:#8b5a2b; font-weight:bold;">{{ order.price * order.quantity }} зм</span></p>
+        <p><b>Статус сборки:</b> 
+            {% if order.status == 'В обработке' %}
+                <span style="color: #d97706; font-weight:bold;">В мастерской (Сборка)</span>
+            {% else %}
+                <span style="color: #16a34a; font-weight:bold;">Выдан приключенцам (Готов)</span>
+            {% endif %}
+        </p>
+        <p><b>Дата летописи:</b> {{ order.created_at }}</p>
+    </div>
+    <br>
+    <a href="{{ url_for('items_list') }}" style="color: #8b5a2b; font-weight: bold;">← Вернуться к списку заказов</a>
+</div>
+{% endblock %}

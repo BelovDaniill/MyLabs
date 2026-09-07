@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container" style="text-align: center; padding: 40px 20px;">
+    <h2>Добро пожаловать, путник!</h2>
+    <p style="font-size: 18px; line-height: 1.6; max-width: 600px; margin: 20px auto;">
+        В нашей лавке «Сумка перегрина» любой искатель приключений - от благородного паладина до хитроумного плута - найдет снаряжение по вкусу. Мы бережно заносим каждую закупку в этот магический свиток учета.
+    </p>
+    <div style="margin-top: 30px;">
+        <a href="{{ url_for('add_order') }}" class="btn btn-add" style="width: auto; padding: 12px 24px;">Оформить заказ для отряда</a>
+    </div>
+</div>
+{% endblock %}
