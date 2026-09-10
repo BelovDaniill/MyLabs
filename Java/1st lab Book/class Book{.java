@@ -14,7 +14,6 @@ class Book{
 
     public Book() {
         numOfBooks++;
-        book_description();
     }
 
     public Book(
@@ -67,7 +66,7 @@ class Book{
         this.price = otherBook.price;
         this.numOfCopies = otherBook.numOfCopies;
         if (otherBook.qualityOfCopies != null) {
-            this.qualityOfCopies = otherBook.qualityOfCopies.clone();
+            this.qualityOfCopies = (qualityOfCopies != null) ? qualityOfCopies.clone() : new byte[0];;
         } else {
             this.qualityOfCopies = null;
         }
@@ -194,6 +193,7 @@ class Book{
         else {
             System.out.print("quality of copies: Unknown");
         }
+        System.out.println();
         System.out.println("number of pages:" + this.numOfPages);
         System.out.println("genre:" + this.genre);
         System.out.println("color of cover:" + this.colorOfCover);
