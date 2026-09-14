@@ -149,7 +149,7 @@ Accept: */*
 - **POST запрос**  
 POST /cars HTTP/1.1  
 Host: sandbox.usm.com  
-Content-Type: application/  x-www-form-urlencoded  
+Content-Type: application/x-www-form-urlencoded  
 Content-Length: 35 <br>  
 make=Subaru&model=Forester&year=2006
 
