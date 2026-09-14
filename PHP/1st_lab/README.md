@@ -101,7 +101,7 @@
 ---
 # Задание 3
 
-- Переходин на страницу Гугл и повторяем опперации.
+- Переходим на страницу Гугл и повторяем опперации.
 - анализ первого запроса (из 36):  
 **URL**: https://www.google.com/js/bg/fD2r805Vg3wuXjZg_Ay7LaIUMvQid2fQlNFyrS4DczI.js (путь к внешнему JavaScript файлу)  
 **Request Method** - `GET`   
