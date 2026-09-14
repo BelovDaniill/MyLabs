@@ -150,7 +150,7 @@ Accept: */*
 POST /cars HTTP/1.1  
 Host: sandbox.usm.com  
 Content-Type: application/  x-www-form-urlencoded  
-Content-Length: 35  
+Content-Length: 35 <br>  
 make=Subaru&model=Forester&year=2006
 
 ### Oсновные методы HTTP-запросов
@@ -189,8 +189,9 @@ PUT предназначен для поной замены ресурса, в �
 **POST /cars HTTP/1.1** 
 **Host: sandbox.com**  
 **Content-Type: application/json**  
-**User-Agent: John Doe**  
-**model=Corolla&make=Toyota&year=2020**  
+**User-Agent: John Doe**  <br>  
+**model=Corolla&make=Toyota&year=2020**  <br>  
+
   - Ответ:  
   Скорее всего сервер вернёт **400 Bad Request** из-за несоответствия типа передаваемых данных ожидаемому типу.
 
