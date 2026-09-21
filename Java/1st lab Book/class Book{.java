@@ -144,6 +144,7 @@ class Book{
             System.out.println("3. Display total number of books");
             System.out.println("4. Compare 2 books by popularity");
             System.out.println("5. Compare 2 books by cost");
+            System.out.println("6. Ignore the fact that I did an interactive menu and run a script");
             System.out.println("0. Exit");
 
         // menu switch
@@ -173,6 +174,9 @@ class Book{
                 fun_for_case_5_in_menu(mainStorage);
                 break;
 
+            case "6":
+                fun_for_case_6_in_menu();
+
             // exit case
             case "0":
                 System.exit(0);
@@ -184,6 +188,11 @@ class Book{
                 break;
             }
         }
+    }
+
+    // function for case 6 in the main menu
+    public static void fun_for_case_6_in_menu(){
+        
     }
 
     // function for case 1 in the main menu
@@ -314,9 +323,14 @@ class Book{
         }
 
         // Compare by cost
+        a_function_that_does_exactly_that_5_case_does(firstBook, secondBook);
+
+    }
+
+    public static void a_function_that_does_exactly_that_5_case_does(Book firstBook, Book secondBook){
         double firstBookCost = firstBook.get_the_cost(firstBook);
         double secondBookCost = secondBook.get_the_cost(secondBook);
-
+        
         if (firstBookCost > secondBookCost) {
             System.out.println(firstBook.get_name() + " is more expensive than " + secondBook.get_name() + ".");
         } else if (firstBookCost < secondBookCost) {
