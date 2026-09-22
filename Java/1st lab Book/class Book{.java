@@ -1,5 +1,56 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Random;
+
+
+/*                  ----------- ТЗ ------------
+
+Создать класс ”Книга” с несколькими полями. 
+Обязательные поля:
+- дробное поле, хранящее стоимость одного экземпляра копии книги.
+- 2 строковых поля, хранящие название книги и имя-фамилию автора
+- целочисленное поле, хранящее число копий этой книги
+- динамический вектор, хранящий инфу о состоянии потрепанности каждой копии (от 0 до 10)
+- статическое целочисленное поле, в котором будет храниться число созданных книг.
+
+Необязательные поля: упитанность книги (число страниц), жанр, цвет обложки, язык и пр.
+
+Описать три типа конструкторов этого класса (с динамическим выделением памяти):
+- конструктор по умолчанию (без параметров) 
+- несколько разных конструкторов с параметрами
+- конструктор копирования
+
+Описать функции доступа и изменения полей класса (методы set()  и get()).
+Описать функцию вывода на экран всей инфы о книге, т.е. всех полей класса.
+Описать функцию, заполняющую все поля объекта значениями, считанными с клавиатуры.
+Описать функцию, заполняющую все поля вызывающего объекта случайными значениями. 
+Описать функцию подсчета популярности книги (среднее арифметическое изношенности копий)
+Описать функцию подсчета общей стоимости книги (учитывая цену одной копии и число копий)
+Описать функцию, сравнивающую две книги (вызывающую и принятую как параметр) по степени 
+их популярности, т.е. по среднему арифметическому среди коэффициентов износа всех копий 
+книги. Чем выше коэффициент – тем популярнее книга.
+Описать статическую функцию, принимающую как параметры две книги, и считающую на сколько 
+первая книга дороже второй (учитывая число копий книги).
+
+В функции main() понапечатать книг, используя все описанные конструкторы. После создания 
+каждого нового экземпляра класса “Книга”, вывести на экран его поля методом класса. 
+Создать динамический вектор книг – «библиотека». Инициализировать его по частям,  
+используя разные типы конструкторов. В цикле вывести всю инфу о каждой книге из 
+библиотеки. Сравнить несколько пар книг по популярности и по стоимости. Подсчитать и 
+распечатать общую стоимость всех созданных книг. Найти среди всех книг самую популярную, 
+и напечатать название «чемпионки». Последней строкой вывести число созданных книг, 
+используя статическую переменную класса.
+
+На оценку 10. Добавить ко всему вышеперечисленному:
+- конструктор, принимающий как параметр имя текстового файла (String), откуда берутся 
+данные для полей создаваемого объекта;
+- функцию сохранения всех полей класса в текстовый файл, имя которого принимается как 
+параметр. 
+- в функции main сохранить данные всех созданных объектов в текстовые файлы, именами 
+которых являются имена объектов.
+
+*/
+
 
 
 class Book{
@@ -192,7 +243,67 @@ class Book{
 
     // function for case 6 in the main menu
     public static void fun_for_case_6_in_menu(){
+        System.out.println("WARNING! This is a static script, if you'll continue you'll lose a chase to tast program flexibility. Do you wanna continue?");
+        System.out.println("Y/N");
         
+        switch (inString()) {
+            case "Y" -> continue_lab_function();
+            case "N" -> System.out.println("Function will cancel.");
+            default -> System.out.println("Invalid answer!");
+        }    
+    }
+
+    // continue case 6
+    public static void continue_lab_function(){
+
+        ArrayList<Book> storage6_biblioteka = new ArrayList<>();
+        
+        // creation
+        Book noname = new Book();
+        Book optional = new Book("Memoirs", "James Bold", 23.0, 3, new byte[]{1, 2, 3});
+        Book full = new Book("Diary", "lil sis", 1.0, 1, new byte[]{1, 2, 3}, 6, "Drama", "Red", "Cantonese");
+        Book copy = new Book(optional);
+        storage6_biblioteka.add(noname);
+        storage6_biblioteka.add(optional);
+        storage6_biblioteka.add(full);
+        storage6_biblioteka.add(copy);
+
+        // description
+        System.out.println("--------------");
+        System.out.println("All books in array:");
+        System.out.println("--------------");
+        for(int i = 0; i < storage6_biblioteka.size(); i++){
+            System.out.println("Book number " + (i+1) + " :");
+            storage6_biblioteka.get(i).book_description();
+            System.out.println("--------------");
+        }
+
+        // total cost
+        System.out.println("--------------");
+        System.out.println("Calculating cost ...");
+        System.out.println("--------------");
+        double total = 0;
+        for(int i = 0; i < storage6_biblioteka.size(); i++){
+            System.out.println("Cost of book number" + (i+1) + " :");
+            total += get_the_cost(storage6_biblioteka.get(i));
+            System.out.println("--------------");
+        }
+        System.out.println("--------------");
+        System.out.println("Total cost books in array: " + total);
+        System.out.println("--------------");
+
+        // comparation
+        System.out.println("--------------");
+        System.out.println("Comparing Memois n Diary ...");
+        System.out.println("--------------");
+        short_cost_compare(optional, copy);
+        short_pop_compare(optional, copy);
+
+        // most popular
+        System.out.println("--------------");
+        System.out.println("Finding most popular ...");
+        System.out.println("--------------");
+
     }
 
     // function for case 1 in the main menu
@@ -284,8 +395,13 @@ class Book{
         }
 
         // Compare by popularity
-        int firstBookPopularity = firstBook.get_the_popularity(firstBook);
-        int secondBookPopularity = secondBook.get_the_popularity(secondBook);
+        short_pop_compare(firstBook, secondBook);
+        
+    }
+
+    public static void short_pop_compare(Book firstBook, Book secondBook){
+        int firstBookPopularity = get_the_popularity(firstBook);
+        int secondBookPopularity = get_the_popularity(secondBook);
 
         if (firstBookPopularity > secondBookPopularity) {
             System.out.println(firstBook.get_name() + " is more popular than " + secondBook.get_name() + ".");
@@ -294,7 +410,7 @@ class Book{
         } else {
             System.out.println(firstBook.get_name() + " and " + secondBook.get_name() + " are equally popular.");
         }
-    }
+    } 
 
     // function for case 5 in the main menu
     public static void fun_for_case_5_in_menu(Book[] mainStorage) {
@@ -323,13 +439,13 @@ class Book{
         }
 
         // Compare by cost
-        a_function_that_does_exactly_that_5_case_does(firstBook, secondBook);
+        short_cost_compare(firstBook, secondBook);
 
     }
 
-    public static void a_function_that_does_exactly_that_5_case_does(Book firstBook, Book secondBook){
-        double firstBookCost = firstBook.get_the_cost(firstBook);
-        double secondBookCost = secondBook.get_the_cost(secondBook);
+    public static void short_cost_compare(Book firstBook, Book secondBook){
+        double firstBookCost = get_the_cost(firstBook);
+        double secondBookCost = get_the_cost(secondBook);
         
         if (firstBookCost > secondBookCost) {
             System.out.println(firstBook.get_name() + " is more expensive than " + secondBook.get_name() + ".");
@@ -594,12 +710,12 @@ class Book{
     }
 
     public void book_description() {
-        System.out.println("name:" + this.name);
-        System.out.println("author:" + this.author);
-        System.out.println("price:" + this.price);
-        System.out.println("number of copies:" + this.numOfCopies);
+        System.out.println("name: " + this.name);
+        System.out.println("author: " + this.author);
+        System.out.println("price: " + this.price);
+        System.out.println("number of copies: " + this.numOfCopies);
         if(this.numOfCopies > 0) {
-            System.out.print("quality of copies:");
+            System.out.print("quality of copies: ");
             for(int i = 0; i < this.numOfCopies; i++) {
                 System.out.print(" " + this.qualityOfCopies[i]);
             }
@@ -608,15 +724,15 @@ class Book{
             System.out.print("quality of copies: Unknown");
         }
         System.out.println();
-        System.out.println("number of pages:" + this.numOfPages);
-        System.out.println("genre:" + this.genre);
-        System.out.println("color of cover:" + this.colorOfCover);
-        System.out.println("language:" + this.language);
+        System.out.println("number of pages: " + this.numOfPages);
+        System.out.println("genre: " + this.genre);
+        System.out.println("color of cover: " + this.colorOfCover);
+        System.out.println("language: " + this.language);
     }
 
 
 
-    public int get_the_popularity(Book book) {
+    public static int get_the_popularity(Book book) {
         int sum = 0;
         for(int i = 0; i < book.get_num_of_copies(); i++) {
             sum += book.get_quality_of_copies()[i];
@@ -624,7 +740,7 @@ class Book{
         return sum;
     }
 
-    public double get_the_cost(Book book) {
+    public static double get_the_cost(Book book) {
         return book.get_price() * book.get_num_of_copies();
     }
 
