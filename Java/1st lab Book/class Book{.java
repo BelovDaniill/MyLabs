@@ -59,7 +59,7 @@ class Book{
     private String author = "Unknown";
     private double price = 0.0;                 //<0.0
     private int numOfCopies = 0;
-    private byte qualityOfCopies[];             //0-10
+    private int qualityOfCopies[];              //0-10
     private int numOfPages = 0;                 //optional
     private String genre = "Unknown";           //optional
     private String colorOfCover = "Unknown";    //optional
@@ -67,7 +67,7 @@ class Book{
 
     // Default constructor
     public Book() {
-        this.qualityOfCopies = new byte[0];
+        this.qualityOfCopies = new int[0];
         numOfBooks++;
     }
 
@@ -80,7 +80,7 @@ class Book{
         String author,
         double price,
         int numOfCopies, 
-        byte qualityOfCopies[])
+        int qualityOfCopies[])
         {
         this.name = name;
         this.author = author;
@@ -101,7 +101,7 @@ class Book{
         String author,
         double price,
         int numOfCopies, 
-        byte qualityOfCopies[],
+        int qualityOfCopies[],
         int numOfPages,
         String genre,
         String colorOfCover,
@@ -128,7 +128,7 @@ class Book{
         this.numOfCopies = otherBook.numOfCopies;
 
         if (otherBook.qualityOfCopies != null) {
-            this.qualityOfCopies = new byte[otherBook.qualityOfCopies.length];
+            this.qualityOfCopies = new int[otherBook.qualityOfCopies.length];
             for(int i = 0; i < otherBook.qualityOfCopies.length; i++) {
                 this.qualityOfCopies[i] = otherBook.qualityOfCopies[i];
             }
@@ -171,15 +171,6 @@ class Book{
             }
         }
     }
-    static byte inByte() {
-        while (true) {
-            try {
-                return (Byte.valueOf(inString()).byteValue());
-            } catch (NumberFormatException e) {
-                System.out.println("Invalid input. Please enter a byte.");
-            }
-        }
-    }
     
     
 
@@ -196,6 +187,8 @@ class Book{
             System.out.println("4. Compare 2 books by popularity");
             System.out.println("5. Compare 2 books by cost");
             System.out.println("6. Ignore the fact that I did an interactive menu and run a script");
+            System.out.println("7. Save my books");
+            System.out.println("8. Download books");
             System.out.println("0. Exit");
 
         // menu switch
@@ -227,6 +220,16 @@ class Book{
 
             case "6":
                 fun_for_case_6_in_menu();
+                System.exit(0);
+                break;
+
+            case "7":
+                fun_for_case_7_in_menu();
+                break;
+
+            case "8":
+                mainStorage = fun_for_case_8_in_menu(mainStorage);
+                break;
 
             // exit case
             case "0":
@@ -260,13 +263,14 @@ class Book{
         
         // creation
         Book noname = new Book();
-        Book optional = new Book("Memoirs", "James Bold", 23.0, 3, new byte[]{1, 2, 3});
-        Book full = new Book("Diary", "lil sis", 1.0, 1, new byte[]{1, 2, 3}, 6, "Drama", "Red", "Cantonese");
+        Book optional = new Book("Memoirs", "James Bold", 23.0, 3, new int[]{1, 2, 2});
+        Book full = new Book("Diary", "lil sis", 1.0, 1, new int[]{9}, 6, "Drama", "Red", "Cantonese");
         Book copy = new Book(optional);
         storage6_biblioteka.add(noname);
         storage6_biblioteka.add(optional);
         storage6_biblioteka.add(full);
         storage6_biblioteka.add(copy);
+        copy.randomaize_the_object();
 
         // description
         System.out.println("--------------");
@@ -302,6 +306,35 @@ class Book{
         // most popular
         System.out.println("--------------");
         System.out.println("Finding most popular ...");
+        System.out.println("--------------");
+        ArrayList<Book> most_popular = new ArrayList<>();
+        most_popular.add(storage6_biblioteka.getFirst());
+
+        for (int i = 1; i < storage6_biblioteka.size(); i++) {
+            System.out.println("--------------");
+            System.out.println("Popularity of book number " + (i+1) + " = "  + get_the_popularity(storage6_biblioteka.get(i)));
+            System.out.println("--------------");
+            if (get_the_popularity(storage6_biblioteka.get(i)) == get_the_popularity(most_popular.getFirst())) {
+                most_popular.add(storage6_biblioteka.get(i));
+            }
+            else if (get_the_popularity(storage6_biblioteka.get(i)) > get_the_popularity(most_popular.getFirst())) {
+                most_popular.clear();
+                most_popular.add(storage6_biblioteka.get(i));
+            }
+        }
+
+        if (most_popular.size() == 1){
+            System.out.println("The most popular book is " + most_popular.getFirst().get_name() + " by " + most_popular.getFirst().get_author());
+        }
+        else {
+            System.out.println("The most popular book are:");
+            for (int i = 0; i < most_popular.size(); i++){
+                System.out.println(most_popular.get(i).get_name() + " by " + most_popular.get(i).get_author());
+            }
+        }
+
+        System.out.println("--------------");
+        System.out.println("Total books created: " + get_numOfBooks());
         System.out.println("--------------");
 
     }
@@ -400,8 +433,8 @@ class Book{
     }
 
     public static void short_pop_compare(Book firstBook, Book secondBook){
-        int firstBookPopularity = get_the_popularity(firstBook);
-        int secondBookPopularity = get_the_popularity(secondBook);
+        double firstBookPopularity = get_the_popularity(firstBook);
+        double secondBookPopularity = get_the_popularity(secondBook);
 
         if (firstBookPopularity > secondBookPopularity) {
             System.out.println(firstBook.get_name() + " is more popular than " + secondBook.get_name() + ".");
@@ -443,17 +476,43 @@ class Book{
 
     }
 
-    public static void short_cost_compare(Book firstBook, Book secondBook){
+    public static double short_cost_compare(Book firstBook, Book secondBook){
         double firstBookCost = get_the_cost(firstBook);
         double secondBookCost = get_the_cost(secondBook);
+        double difference = 0;
         
         if (firstBookCost > secondBookCost) {
-            System.out.println(firstBook.get_name() + " is more expensive than " + secondBook.get_name() + ".");
+            difference = firstBookCost - secondBookCost;
+            System.out.println(firstBook.get_name() + " is $" + difference + "more expensive than " + secondBook.get_name() + ".");
         } else if (firstBookCost < secondBookCost) {
-            System.out.println(secondBook.get_name() + " is more expensive than " + firstBook.get_name() + ".");
+            difference = secondBookCost - firstBookCost;
+            System.out.println(secondBook.get_name() + " is $" + difference + "more expensive than " + firstBook.get_name() + ".");
         } else {
             System.out.println(firstBook.get_name() + " and " + secondBook.get_name() + " have the same cost.");
         }
+        return difference;
+    }
+
+    // save to file
+    public static void fun_for_case_7_in_menu(){
+        for (Book b : mainStorage) {
+            String fileName = b.get_name().replaceAll("[^a-zA-Z0-9_-]", "_") + ".txt";
+            b.saveToFile(fileName);
+        }
+    }
+
+    // load from file
+    public static Book[] fun_for_case_8_in_menu(Book[] arr){
+        System.out.println("Choose file to download a book:");
+        String name = inString();
+        Book loadedBook = new Book(name);
+        Book array[] = new Book[arr.length + 1];
+        for (int i = 0; i < arr.length; i++) {
+            array[i] = arr[i];
+        }
+        array[arr.length] = loadedBook;
+        return array;
+
     }
 
     // constructors but it is a function that use a real constructor
@@ -490,10 +549,10 @@ class Book{
         System.out.println("Enter the number of copies:");
         int numOfCopies = inInt();
         
-        byte[] qualityOfCopies = new byte[numOfCopies];
+        int[] qualityOfCopies = new int[numOfCopies];
         for(int i = 0; i < numOfCopies;) {
             System.out.println("Enter the quality of copy " + (i + 1) + " (0-10):");
-            byte curentNumber = inByte();
+            int curentNumber = inInt();
             if (curentNumber <= 10 && curentNumber >=0) {
                 qualityOfCopies[i] = curentNumber;
                 i++;
@@ -553,10 +612,10 @@ class Book{
         System.out.println("Enter the number of copies:");
         int numOfCopies = inInt();
         
-        byte[] qualityOfCopies = new byte[numOfCopies];
+        int[] qualityOfCopies = new int[numOfCopies];
         for(int i = 0; i < numOfCopies;) {
             System.out.println("Enter the quality of copy " + (i + 1) + " (0-10):");
-            byte curentNumber = inByte();
+            int curentNumber = inInt();
             if (curentNumber <= 10 && curentNumber >=0) {
                 qualityOfCopies[i] = curentNumber;
                 i++;
@@ -600,9 +659,9 @@ class Book{
 
         int numOfCopies = (new Random()).nextInt(100) + 1;
 
-        byte[] qualityOfCopies = new byte[numOfCopies];
+        int[] qualityOfCopies = new int[numOfCopies];
         for(int i = 0; i < numOfCopies;) {
-            byte curentNumber = (byte)((new Random()).nextInt(11));
+            int curentNumber = ((new Random()).nextInt(11));
             qualityOfCopies[i] = curentNumber;
             i++;
         }
@@ -642,6 +701,59 @@ class Book{
         );
         return newArray;
     }
+
+    // randommaize the object
+    public Book randomaize_the_object() {
+        System.out.println("Adding a new book using the random parameterized constructor.");
+
+        // read all the parameters from the user
+        String[] randomNames = {"Smerti na Nile", "Gosudari", "Golodnii igri", "Taras Bulba", "Rukovodstvo mastera podzemeliy"};
+        int randomIndexForName = (new Random()).nextInt(randomNames.length);
+        String name = randomNames[randomIndexForName];
+        
+        String[] randomAuthors = {"Agata Kristi", "Nikolo Makkiavelli", "Suzanne Collins", "Nikolai Gogol", "Wizards"};
+        int randomIndexForAuthor = (new Random()).nextInt(randomAuthors.length);
+        String author = randomAuthors[randomIndexForAuthor];
+
+        double price = (new Random()).nextDouble() * 100;
+
+        int numOfCopies = (new Random()).nextInt(100) + 1;
+
+        int[] qualityOfCopies = new int[numOfCopies];
+        for(int i = 0; i < numOfCopies;) {
+            int curentNumber = ((new Random()).nextInt(11));
+            qualityOfCopies[i] = curentNumber;
+            i++;
+        }
+        
+        int numOfPages = (new Random()).nextInt(1000) + 1;
+        
+        String[] randomGenres = {"Detective", "Mail", "Fantasy", "Povest", "Guide"};
+        int randomIndexForGenre = (new Random()).nextInt(randomGenres.length);
+        String genre = randomGenres[randomIndexForGenre];
+
+        String[] randomColors = {"Black", "Blue", "Red", "Green", "Purple"};
+        int randomIndexForColor = (new Random()).nextInt(randomColors.length);
+        String colorOfCover = randomColors[randomIndexForColor];
+
+
+        String[] randomLanguages = {"French", "Italian", "English", "Russian", "American"};
+        int randomIndexForLanguage = (new Random()).nextInt(randomLanguages.length);
+        String language = randomLanguages[randomIndexForLanguage];
+
+        this.name = name;
+        this.author = author;
+        this.price = price;
+        this.numOfCopies = numOfCopies;
+        this.qualityOfCopies = qualityOfCopies;
+        this.genre = genre;
+        this.colorOfCover = colorOfCover;
+        this.language = language;
+
+        return this;
+    }
+
+
 
     // copy constructor
     public static Book[] copy_constructor(Book[] arr) {
@@ -732,12 +844,13 @@ class Book{
 
 
 
-    public static int get_the_popularity(Book book) {
+    public static double get_the_popularity(Book book) {
         int sum = 0;
         for(int i = 0; i < book.get_num_of_copies(); i++) {
             sum += book.get_quality_of_copies()[i];
         }
-        return sum;
+        if (book.get_num_of_copies() == 0) return 0.0;
+        else return (double) sum  / book.get_num_of_copies();
     }
 
     public static double get_the_cost(Book book) {
@@ -771,11 +884,11 @@ class Book{
     }
     public void set_num_of_copies(int numOfCopies) {
         if (numOfCopies > 0 && numOfCopies != this.numOfCopies && numOfCopies < 100) {
-            byte tmp[] = new byte[this.numOfCopies];
+            int tmp[] = new int[this.numOfCopies];
             for(int i = 0; i < this.numOfCopies; i++) {
                 tmp[i] = this.qualityOfCopies[i];
             }
-            this.qualityOfCopies = new byte[numOfCopies];
+            this.qualityOfCopies = new int[numOfCopies];
             int min = (numOfCopies < this.numOfCopies) ? numOfCopies : this.numOfCopies;
             for(int i = 0; i < min; i++) {
                 this.qualityOfCopies[i] = tmp[i];
@@ -783,10 +896,10 @@ class Book{
             this.numOfCopies = numOfCopies;
         }
     }
-    public byte[] get_quality_of_copies() {
+    public int[] get_quality_of_copies() {
         return qualityOfCopies;
     }
-    public void set_quality_of_copies(byte[] qualityOfCopies) {
+    public void set_quality_of_copies(int[] qualityOfCopies) {
         this.qualityOfCopies = qualityOfCopies.clone();
     }
     public int get_num_of_pages() {
@@ -812,5 +925,57 @@ class Book{
     }
     public void set_language(String language) {
         this.language = language;
+    }
+
+    // for 10
+
+    // constructor with file name
+    public Book(String fileName) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            this.name = reader.readLine();
+            this.author = reader.readLine();
+            this.price = Double.parseDouble(reader.readLine());
+            this.numOfCopies = Integer.parseInt(reader.readLine());
+
+            this.qualityOfCopies = new int[this.numOfCopies];
+            for (int i = 0; i < this.numOfCopies; i++) {
+                this.qualityOfCopies[i] = Integer.parseInt(reader.readLine());
+            }
+
+            this.numOfPages = Integer.parseInt(reader.readLine());
+            this.genre = reader.readLine();
+            this.colorOfCover = reader.readLine();
+            this.language = reader.readLine();
+
+            numOfBooks++;
+            System.out.println("Книга успешно загружена из файла: " + fileName);
+        } catch (IOException e) {
+            System.out.println("Ошибка при чтении файла: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Ошибка формата данных в файле: " + e.getMessage());
+        }
+    }
+
+    // save to file function
+    public void saveToFile(String fileName) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))) {
+            writer.write(this.name + "\n");
+            writer.write(this.author + "\n");
+            writer.write(this.price + "\n");
+            writer.write(this.numOfCopies + "\n");
+
+            for (int i = 0; i < this.numOfCopies; i++) {
+                writer.write(this.qualityOfCopies[i] + "\n");
+            }
+
+            writer.write(this.numOfPages + "\n");
+            writer.write(this.genre + "\n");
+            writer.write(this.colorOfCover + "\n");
+            writer.write(this.language + "\n");
+
+            System.out.println("Данные книги \"" + this.name + "\" сохранены в файл: " + fileName);
+        } catch (IOException e) {
+            System.out.println("Ошибка при сохранении в файл: " + e.getMessage());
+        }
     }
 }
