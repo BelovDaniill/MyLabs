@@ -72,7 +72,7 @@ class Book{
     }
 
     // Main storage for books
-    static Book mainStorage[] = new Book[0];
+    static Book mainStorage[] = new Book[1];
 
     // Optional parameterized constructor
     public Book(
@@ -176,8 +176,9 @@ class Book{
 
     ///////////////////////////// MAIN /////////////////////////////
 
-    public static void main(String[] args) {
-        
+    public static void main() {
+        mainStorage[0] = new Book();
+
         // Main menu
         while(true) {
             System.out.println("Choose an option:");
@@ -445,6 +446,13 @@ class Book{
         }
     } 
 
+    // cause of "ТЗ"
+    public int compare_popularity_as_in_tz(Book other) {
+        double thisPop = get_the_popularity(this);
+        double otherPop = get_the_popularity(other);
+        return Double.compare(thisPop, otherPop);
+    }
+
     // function for case 5 in the main menu
     public static void fun_for_case_5_in_menu(Book[] mainStorage) {
         if (mainStorage.length < 2) {
@@ -483,29 +491,42 @@ class Book{
         
         if (firstBookCost > secondBookCost) {
             difference = firstBookCost - secondBookCost;
-            System.out.println(firstBook.get_name() + " is $" + difference + "more expensive than " + secondBook.get_name() + ".");
+            System.out.println(firstBook.get_name() + " is $" + difference + " more expensive than " + secondBook.get_name() + ".");
         } else if (firstBookCost < secondBookCost) {
             difference = secondBookCost - firstBookCost;
-            System.out.println(secondBook.get_name() + " is $" + difference + "more expensive than " + firstBook.get_name() + ".");
+            System.out.println(secondBook.get_name() + " is $" + difference + " more expensive than " + firstBook.get_name() + ".");
         } else {
             System.out.println(firstBook.get_name() + " and " + secondBook.get_name() + " have the same cost.");
         }
         return difference;
     }
 
+    // function for case 7 in the main menu
     // save to file
-    public static void fun_for_case_7_in_menu(){
+    public static void fun_for_case_7_in_menu() {
+        if (mainStorage == null || mainStorage.length == 0) {
+            System.out.println("No books to save.");
+            return;
+        }
         for (Book b : mainStorage) {
-            String fileName = b.get_name().replaceAll("[^a-zA-Z0-9_-]", "_") + ".txt";
-            b.saveToFile(fileName);
+            if (b != null) {
+                String rawName = b.get_name();
+                if (rawName == null || rawName.trim().isEmpty()) {
+                    rawName = "Unnamed_Book";
+                }
+                // Формируем безопасное имя файла
+                String fileName = rawName.replaceAll("[^a-zA-Z0-9_-]", "_") + ".txt";
+                b.saveToFile("Java/1st_lab_Book/" + fileName);
+            }
         }
     }
 
+    // function for case 8 in the main menu
     // load from file
     public static Book[] fun_for_case_8_in_menu(Book[] arr){
         System.out.println("Choose file to download a book:");
         String name = inString();
-        Book loadedBook = new Book(name);
+        Book loadedBook = new Book("Java/1st_lab_Book/" + name);
         Book array[] = new Book[arr.length + 1];
         for (int i = 0; i < arr.length; i++) {
             array[i] = arr[i];
@@ -753,8 +774,6 @@ class Book{
         return this;
     }
 
-
-
     // copy constructor
     public static Book[] copy_constructor(Book[] arr) {
         if (arr.length == 0) {
@@ -842,9 +861,10 @@ class Book{
         System.out.println("language: " + this.language);
     }
 
-
-
     public static double get_the_popularity(Book book) {
+        if (book == null || book.get_num_of_copies() <= 0 || book.get_quality_of_copies() == null) {
+            return 0.0;
+        }
         int sum = 0;
         for(int i = 0; i < book.get_num_of_copies(); i++) {
             sum += book.get_quality_of_copies()[i];
@@ -900,8 +920,26 @@ class Book{
         return qualityOfCopies;
     }
     public void set_quality_of_copies(int[] qualityOfCopies) {
-        this.qualityOfCopies = qualityOfCopies.clone();
+    if (qualityOfCopies != null && qualityOfCopies.length > 0 && qualityOfCopies.length < 100) {
+        
+        boolean allValid = true;
+        for (int i = 0; i < qualityOfCopies.length; i++) {
+            if (qualityOfCopies[i] < 0 || qualityOfCopies[i] > 10) {
+                allValid = false;
+                break;
+            }
+        }
+        if (allValid) {
+            int newSize = qualityOfCopies.length;
+
+            this.qualityOfCopies = new int[newSize];
+            for (int i = 0; i < newSize; i++) {
+                this.qualityOfCopies[i] = qualityOfCopies[i];
+            }
+            this.numOfCopies = newSize;
+        }
     }
+}
     public int get_num_of_pages() {
         return numOfPages;
     }
@@ -931,30 +969,34 @@ class Book{
 
     // constructor with file name
     public Book(String fileName) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-            this.name = reader.readLine();
-            this.author = reader.readLine();
-            this.price = Double.parseDouble(reader.readLine());
-            this.numOfCopies = Integer.parseInt(reader.readLine());
+    try {
+        BufferedReader box = new BufferedReader(new FileReader(fileName));
 
-            this.qualityOfCopies = new int[this.numOfCopies];
-            for (int i = 0; i < this.numOfCopies; i++) {
-                this.qualityOfCopies[i] = Integer.parseInt(reader.readLine());
-            }
+        this.name = box.readLine();
+        this.author = box.readLine();
+        this.price = Double.valueOf(box.readLine()).doubleValue();
+        this.numOfCopies = Integer.valueOf(box.readLine()).intValue();
 
-            this.numOfPages = Integer.parseInt(reader.readLine());
-            this.genre = reader.readLine();
-            this.colorOfCover = reader.readLine();
-            this.language = reader.readLine();
-
-            numOfBooks++;
-            System.out.println("Книга успешно загружена из файла: " + fileName);
-        } catch (IOException e) {
-            System.out.println("Ошибка при чтении файла: " + e.getMessage());
-        } catch (NumberFormatException e) {
-            System.out.println("Ошибка формата данных в файле: " + e.getMessage());
+        this.qualityOfCopies = new int[this.numOfCopies];
+        for (int i = 0; i < this.numOfCopies; i++) {
+            this.qualityOfCopies[i] = Integer.valueOf(box.readLine()).intValue();
         }
+
+        this.numOfPages = Integer.valueOf(box.readLine()).intValue();
+        this.genre = box.readLine();
+        this.colorOfCover = box.readLine();
+        this.language = box.readLine();
+
+        numOfBooks++;
+        System.out.println("Book is downloaded successfully from file: " + fileName);
+        
+        box.close();
+    } catch (IOException e) {
+        System.out.println("Error via reading file: " + e.getMessage());
+    } catch (NumberFormatException e) {
+        System.out.println("Format error: " + e.getMessage());
     }
+}
 
     // save to file function
     public void saveToFile(String fileName) {
