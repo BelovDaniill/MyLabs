@@ -725,7 +725,7 @@ class Book{
 
     // randommaize the object
     public Book randomaize_the_object() {
-        System.out.println("Adding a new book using the random parameterized constructor.");
+        System.out.println("Values of a book will randomize.");
 
         // read all the parameters from the user
         String[] randomNames = {"Smerti na Nile", "Gosudari", "Golodnii igri", "Taras Bulba", "Rukovodstvo mastera podzemeliy"};
@@ -1015,9 +1015,9 @@ class Book{
             writer.write(this.colorOfCover + "\n");
             writer.write(this.language + "\n");
 
-            System.out.println("Данные книги \"" + this.name + "\" сохранены в файл: " + fileName);
+            System.out.println("Book data: \"" + this.name + "\" сохранены в файл: " + fileName);
         } catch (IOException e) {
-            System.out.println("Ошибка при сохранении в файл: " + e.getMessage());
+            System.out.println("Error via save: " + e.getMessage());
         }
     }
 }
