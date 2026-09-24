@@ -52,7 +52,6 @@ import java.util.Random;
 */
 
 
-
 class Book{
     private static int numOfBooks = 0;
     private String name = "Unknown";
