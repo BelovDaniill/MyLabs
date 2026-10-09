@@ -56,7 +56,7 @@ class Book{
     private static int numOfBooks = 0;
     private String name = "Unknown";
     private String author = "Unknown";
-    private double price = 0.0;                 //<0.0
+    private double price = 0.0;                 //>0.0
     private int numOfCopies = 0;
     private int qualityOfCopies[];              //0-10
     private int numOfPages = 0;                 //optional
@@ -255,6 +255,7 @@ class Book{
             default -> System.out.println("Invalid answer!");
         }    
     }
+
 
     // continue case 6
     public static void continue_lab_function(){
@@ -896,7 +897,9 @@ class Book{
         return price;
     }
     public void set_price(double price) {
-        this.price = price;
+        if (price >= 0.0){
+            this.price = price;
+        }
     }
     public int get_num_of_copies() {
         return numOfCopies;
@@ -918,6 +921,13 @@ class Book{
     public int[] get_quality_of_copies() {
         return qualityOfCopies;
     }
+
+    public int get_concret_quality(int concret_index){
+        if (concret_index >= 0 && concret_index < qualityOfCopies.length)
+            return qualityOfCopies[concret_index];
+        else return 0;
+    }
+
     public void set_quality_of_copies(int[] qualityOfCopies) {
     if (qualityOfCopies != null && qualityOfCopies.length > 0 && qualityOfCopies.length < 100) {
         
