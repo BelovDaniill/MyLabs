@@ -1,2 +1,8 @@
-Crypta/
-.gitignore
+Crypta/Lab1Crypto/.vs
+Crypta/Lab1Crypto/Lab1Crypto
+Crypta/Lab1Crypto/x64
+Lab1Crypto.slnx
+Lab1Crypto.vcxproj
+Lab1Crypto.vcxproj.filters
+Lab1Crypto.vcxproj.user
+.vs
