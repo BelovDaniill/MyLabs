@@ -1,5 +1,6 @@
 #pragma once
-void VGB_random(char* seed_str, int length);
-void VGB_exclud(char* message);
-void VGB_encrypt(char* message, const char* key, const char* op_type);
-void VGB_decrypt(char* message, const char* key, const char* op_type);
+
+
+void generate_seed(char* seed_buf, int length);
+void VGBencrypt(char* message, const char* key, const char* op_type);
+void VGBdecrypt(char* message, const char* key, const char* op_type, const char* seed);

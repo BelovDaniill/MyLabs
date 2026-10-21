@@ -1,0 +1,5 @@
+Rogue
+Health: 66
+Level: 3
+Speed: 12.5
+Agility: 8

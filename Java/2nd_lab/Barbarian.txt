@@ -1,0 +1,5 @@
+Barbarian
+Health: 84
+Level: 1
+Speed: 10.0
+Strength: 5

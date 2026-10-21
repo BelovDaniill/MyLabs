@@ -23,7 +23,7 @@ void Cesar(char* msg) {
                 break;
             }
             else {
-                new_message[i] = msg[i]; // Сохраняем символ, если его нет в алфавите
+                new_message[i] = msg[i];
             }
         }
     }

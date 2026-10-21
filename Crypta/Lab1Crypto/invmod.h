@@ -1,4 +1,5 @@
 #pragma once
-long long mod_inverse_eea(long long b, long long n);
-long long mod_inverse_fermat(long long b, long long p);
-long long mod_inverse_gcd(long long b, long long n);
+long pow_mod(long a, long k, long n);
+long modEEA(long b, long n);
+long modFERMA(long b, long p);
+long modEEAbi(long b, long n);

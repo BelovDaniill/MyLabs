@@ -1,0 +1,5 @@
+Wizard
+Health: 61
+Level: 5
+Speed: 20.0
+Spells: 10

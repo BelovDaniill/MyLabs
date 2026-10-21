@@ -6,72 +6,97 @@
 #include "SimpleCesar.h"
 #include "WordCesar.h"
 #include "VGN.h"
-#include "invmod.h" // Подключаем наш новый модуль
+#include "vgb.h"
+#include "invmod.h"
+#include "HD.h"
+
+//"D:\studies\laboratories\Crypta\Lab1Crypto\x64\Debug\Lab1Crypto.exe" - путь
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
     if (argc == 1) {
-        std::cerr << "crypto: no option and message\n";
+        cerr << "crypto: no option and message\n";
         return 3;
     }
 
     if (argc == 2) {
         if (argv[1][0] == '-') {
-            std::cerr << "crypto: no message/parameters\n";
+            cerr << "crypto: no message/parameters\n";
         }
         else {
-            std::cerr << "crypto: no option\n";
+            cerr << "crypto: no option\n";
         }
         return 2;
     }
 
-    // Пример вызова для модульной обратной величины (ожидаем b и n, передаваемых через аргументы)
-    if (argc == 4) {
-        char* opt = argv[1];
-        long long b = atoll(argv[2]);
-        long long n = atoll(argv[3]);
-        long long result = -1;
-
-        if (strcmp(opt, "-MI-eea") == 0) {
-            result = mod_inverse_eea(b, n);
-        }
-        else if (strcmp(opt, "-MI-ferma") == 0) {
-            result = mod_inverse_fermat(b, n);
-        }
-        else if (strcmp(opt, "-MI-gcd") == 0) {
-            result = mod_inverse_gcd(b, n);
-        }
-        else {
-            std::cerr << "unknown option\n";
-            exit(3);
-        }
-
-        if (result == -1) {
-            std::cout << "The modular inverse does not exist.\n";
-        }
-        else {
-            std::cout << "Result inverse: " << result << "\n";
-        }
-        return 0;
-    }
-
-    // Существующая логика для шифров (argc == 3)
     if (argc == 3) {
         char* opt = argv[1];
         char* msg = argv[2];
         if (strcmp(opt, "-Cesar") == 0) {
             Cesar(msg);
         }
-        // ... остальные ветки шифров ...
+        else if(strcmp(opt, "-CesarDecrypt") == 0) {
+            CesarDecrypt(msg);
+        }
+        else if (strcmp(opt, "-WordCesar") == 0) {
+            WordCesar(msg);
+                }
+        else if (strcmp(opt, "-WordCesarDecrypt") == 0) {
+            WordCesarDecrypt(msg);
+        }
+        else if (strcmp(opt, "-VGN") == 0) {
+            VGN(msg);
+        }
+        else if (strcmp(opt, "-VGNDecrypt") == 0) {
+            VGNDecrypt(msg);
+        }
+        else if (strcmp(opt, "-DH") == 0) {
+            fulDH();
+        }
+        else if (strcmp(opt, "-VGB") == 0) {
+            VGBencrypt(msg, "TFT", "XOR");
+        }
+        else if (strcmp(opt, "-VGBDecrypt") == 0) {
+            VGBdecrypt(msg, "TFT", "XOR", "YOWWSFGF");
+        }
+        else {
+            cerr << "unknown option\n";
+            exit(3);
+            }
+        }
+
+    if (argc == 4) {
+        char* opt = argv[1];
+        long long b = atol(argv[2]);
+        long long n = atol(argv[3]);
+        long long result = -1;
+
+        if (strcmp(opt, "-MI-eea") == 0) {
+            result = modEEA(b, n);
+        }
+        else if (strcmp(opt, "-MI-ferma") == 0) {
+            result = modFERMA(b, n);
+        }
+        else if (strcmp(opt, "-MI-gcd") == 0) {
+            result = modEEAbi(b, n);
+        }
         else {
             cerr << "unknown option\n";
             exit(3);
         }
+
+        if (result == -1) {
+            cout << "The modular inverse does not exist.\n";
+        }
+        else {
+            cout << "Result inverse: " << result << "\n";
+        }
+        return 0;
     }
 
     if (argc > 4) {
-        std::cerr << "crypto: too many strings\n";
+        cerr << "crypto: too many strings\n";
         return 4;
     }
 

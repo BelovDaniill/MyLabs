@@ -29,7 +29,7 @@ void WordCesar(char* msg) {
         key_letters[i + key_len] = LETTERS[i];
     }
 
-    // Удаление повторов
+    // удаление повторов
     int seen[256] = { 0 };
     int write_index = 0;
     int total_len = key_len + letters_len;
@@ -80,17 +80,14 @@ void WordCesarDecrypt(char* msg) {
     int key_len = (int)strlen(key);
     int letters_len = (int)strlen(LETTERS);
 
-    // 1. Копируем ключ
-    for (i = 0; key_len > i; i++) { // сохранено исходное написание
+    for (i = 0; key_len > i; i++) {
         key_letters[i] = key[i];
     }
 
-    // 2. Добавляем оставшийся алфавит
     for (i = 0; i < letters_len; i++) {
         key_letters[i + key_len] = LETTERS[i];
     }
 
-    // 3. Удаление дубликатов
     int seen[256] = { 0 };
     int write_index = 0;
     int total_len = key_len + letters_len;
@@ -106,7 +103,6 @@ void WordCesarDecrypt(char* msg) {
     }
     key_letters[write_index] = '\0';
 
-    // 4. Процесс дешифрования
     for (i = 0; msg[i] != '\0'; i++) {
         char c = msg[i];
         int found = 0;

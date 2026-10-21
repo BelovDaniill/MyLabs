@@ -4,7 +4,6 @@
 #include "keyReader.h"
 using namespace std;
 
-// Функция шифрования Виженера
 void VGN(char* message) {
     
     char* key = charreadKey();
@@ -14,14 +13,13 @@ void VGN(char* message) {
     int msg_len = strlen(message);
 
     char* encrypt = new char[msg_len + 1];
-    int index3 = 0; // индекс для ключа
+    int index3 = 0; 
 
     cout << "enc: ";
 
     for (int i = 0; i < msg_len; i++) {
         int m1 = -1, m2 = -1;
 
-        // Поиск индекса символа сообщения в алфавите
         for (int j = 0; j < alpha_len; j++) {
             if (message[i] == LETTERS[j]) {
                 m1 = j;
@@ -29,7 +27,6 @@ void VGN(char* message) {
             }
         }
 
-        // Поиск индекса символа ключа в алфавите
         for (int j = 0; j < alpha_len; j++) {
             if (key[index3] == LETTERS[j]) {
                 m2 = j;
@@ -48,11 +45,9 @@ void VGN(char* message) {
             encrypt[i] = LETTERS[temp];
         }
         else {
-            // Если символ не найден в алфавите, оставляем без изменений
             encrypt[i] = message[i];
         }
 
-        // Обновление индекса ключа
         if (index3 == key_len - 1) {
             index3 = 0;
         }
@@ -65,7 +60,6 @@ void VGN(char* message) {
     delete[] encrypt;
 }
 
-// Функция дешифрования Виженера
 void VGNDecrypt(char* message) {
     char* key = charreadKey();
     

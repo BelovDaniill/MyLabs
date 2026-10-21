@@ -6,7 +6,7 @@
  * 
  * @category Gallery
  * @package  ImageGallery
- * @author   Daniil Belov <student@usm.md>
+ * @author   Daniil Belov
  * @license  MIT License
  * @link     http://localhost/
  */
@@ -14,11 +14,11 @@
 /**
  * Получает список изображений из указанной директории с фильтрацией системных файлов и расширений.
  *
- * @param string $directory Путь к директории с изображениями (по умолчанию 'image/').
+ * @param string $directory Путь к директории с изображениями (по умолчанию 'resources/').
  * @return array Массив путей к файлам изображений, готовых для вывода.
  * @throws Exception Если директория не существует или к ней нет доступа.
  */
-function getGalleryImages(string $directory = 'image/'): array {
+function getGalleryImages(string $directory = 'resources/'): array {
     if (!is_dir($directory)) {
         return [];
     }
@@ -32,7 +32,6 @@ function getGalleryImages(string $directory = 'image/'): array {
     $images = [];
 
     foreach ($scanResult as $file) {
-        // Пропускаем системные указатели каталогов
         if ($file === '.' || $file === '..') {
             continue;
         }
@@ -40,8 +39,7 @@ function getGalleryImages(string $directory = 'image/'): array {
         $filePath = $directory . $file;
         $fileExtension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
 
-        // Проверяем, является ли элемент файлом с допустимым расширением
-        if (is_file($filePath) && in_array($fileExtension, $allowedExtensions, true)) {
+        if (is_file($filePath) && in_array($fileExtension, $allowedExtensions)) {
             $images[] = $filePath;
         }
     }
@@ -49,9 +47,11 @@ function getGalleryImages(string $directory = 'image/'): array {
     return $images;
 }
 
-// Получаем массив изображений с помощью функции
-$imagesList = getGalleryImages('image/');
+$imagesList = getGalleryImages('resources/');
 ?>
+
+
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -77,20 +77,6 @@ $imagesList = getGalleryImages('image/');
             color: white;
             padding: 20px;
             text-align: center;
-        }
-        nav {
-            background-color: #34495e;
-            padding: 10px;
-            text-align: center;
-        }
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-        }
-        nav a:hover {
-            text-decoration: underline;
         }
         main {
             flex: 1;
@@ -122,7 +108,7 @@ $imagesList = getGalleryImages('image/');
         }
         .gallery-item img {
             width: 100%;
-            height: 150px;
+            height: 200px;
             object-fit: cover;
             display: block;
         }
@@ -151,23 +137,11 @@ $imagesList = getGalleryImages('image/');
     </style>
 </head>
 <body>
-
-    <!-- Хедер сайта -->
     <header>
-        <h1>Мой сайт-галерея</h1>
+        <h1>Cайт-галерея</h1>
     </header>
-
-    <!-- Меню навигации -->
-    <nav>
-        <a href="#">Главная</a>
-        <a href="#">Галерея</a>
-        <a href="#">О проекте</a>
-        <a href="#">Контакты</a>
-    </nav>
-
-    <!-- Основной контент -->
     <main>
-        <h2>Фотогалерея</h2>
+     
         
         <?php if (!empty($imagesList)): ?>
             <div class="gallery">
@@ -179,13 +153,13 @@ $imagesList = getGalleryImages('image/');
                 <?php endforeach; ?>
             </div>
         <?php else: ?>
-            <p class="no-images">В директории "image/" пока нет изображений формата .jpg.</p>
+            <p class="no-images">В директории "resources/" пока нет изображений формата .jpg.</p>
         <?php endif; ?>
     </main>
 
-    <!-- Футер сайта -->
+
     <footer>
-        <p>&copy; <?= date('Y') ?> Галерея изображений. Все права защищены.</p>
+        <p> 2026 Галерея изображений. Все права защищены.</p>
     </footer>
 
 </body>

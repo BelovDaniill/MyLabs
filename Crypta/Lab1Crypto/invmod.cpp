@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include "invmod.h"
 
-// Вспомогательная функция модульного возведения в степень (нужна для Ферма)
-static long long pow_mod(long long a, long long k, long long n) {
-    long long b_val = 1;
+// возведение по модулю (ферма)
+long pow_mod(long a, long k, long n) {
+    long b_val = 1;
     a = a % n;
     while (k > 0) {
         if (k % 2 == 1) {
@@ -16,13 +16,13 @@ static long long pow_mod(long long a, long long k, long long n) {
     return b_val;
 }
 
-// 3.3.1 Расширенный алгоритм Евклида (EEA)
-long long mod_inverse_eea(long long b, long long n) {
-    long long n0 = n, b0 = b;
-    long long t0 = 0, t = 1;
-    long long q = n0 / b0;
-    long long r = n0 - q * b0;
-    long long temp = 0;
+// расширенный алгоритм Евклида
+long modEEA(long b, long n) {
+    long n0 = n, b0 = b;
+    long t0 = 0, t = 1;
+    long q = n0 / b0;
+    long r = n0 - q * b0;
+    long temp = 0;
 
     if (b <= 1 || n <= 0) return -1;
 
@@ -43,22 +43,21 @@ long long mod_inverse_eea(long long b, long long n) {
     }
 
     if (b0 != 1) {
-        return -1; // Обратный элемент не существует
+        return -1; // оббратный элемент не существует
     }
     return t;
 }
 
-// 3.3.2 Метод Ферма (через модулярное возведение в степень, только для простых n)
-long long mod_inverse_fermat(long long b, long long p) {
-    // По Малой теореме Ферма: b^(-1) === b^(p-2) (mod p)
+//Ферма только для простых n
+long modFERMA(long b, long p) {
+    // b^(-1) === b^(p-2) (mod p)
     return pow_mod(b, p - 2, p);
 }
 
-// 3.3.3 Двоичный алгоритм Евклида (Binary GCD)
-long long mod_inverse_gcd(long long b, long long n) {
-    // Упрощенная реализация бинарного алгоритма для нахождения обратного элемента
-    long long u = b, v = n;
-    long long x1 = 1, x2 = 0;
+// двоичный эвклид
+long modEEAbi(long b, long n) {
+    long u = b, v = n;
+    long x1 = 1, x2 = 0;
 
     while (u != 1 && v != 1) {
         while (u % 2 == 0) {

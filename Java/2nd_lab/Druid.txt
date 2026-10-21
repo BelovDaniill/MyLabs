@@ -1,0 +1,5 @@
+Druid
+Health: 12
+Level: 6
+Speed: 12.111597
+Wisdom: 8
