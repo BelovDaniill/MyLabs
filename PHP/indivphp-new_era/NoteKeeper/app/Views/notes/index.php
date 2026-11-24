@@ -1,8 +1,28 @@
-<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3"><h1 class="h3">Мои заметки</h1><a class="btn btn-primary" href="/notes/create">+ Новая заметка</a></div>
+<div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
+    <h1 class="h3">Мои заметки</h1>
+    <a class="btn btn-primary" href="/notes/create">+ Новая заметка</a>
+</div>
+
 <div class="mb-3 d-flex flex-wrap gap-2">
 <a class="btn btn-sm <?= $type===''?'btn-dark':'btn-outline-dark' ?>" href="/notes">Все</a>
-<?php foreach (['general'=>'Общие','place'=>'Места','character'=>'Персонажи','event'=>'События'] as $key=>$label): ?><a class="btn btn-sm <?= $type===$key?'btn-dark':'btn-outline-dark' ?>" href="/notes?type=<?= $key ?>"><?= $label ?></a><?php endforeach; ?>
+<?php foreach (['general'=>'Общие','place'=>'Места','character'=>'Персонажи','event'=>'События'] as $key=>$label): ?>
+    <a class="btn btn-sm <?= $type===$key?'btn-dark':'btn-outline-dark' ?>" href="/notes?type=<?= $key ?>"><?= $label ?></a><?php endforeach; ?>
 </div>
-<?php if (!$notes): ?><div class="empty-state">Заметок пока нет. Создайте первую запись.</div><?php else: ?>
-<div class="row g-3"><?php foreach ($notes as $note): ?><div class="col-md-6 col-lg-4"><div class="card h-100"><div class="card-body"><div class="d-flex justify-content-between"><span class="badge text-bg-secondary"><?= ['general'=>'Общая','place'=>'Место','character'=>'Персонаж','event'=>'Событие'][$note['type']] ?></span><?php if ($note['is_favorite']): ?><span title="Избранное">★</span><?php endif; ?></div><h2 class="h5 mt-2"><?= Validator::e($note['title']) ?></h2><p class="text-secondary"><?= Validator::e($note['description']) ?></p><small class="text-secondary"><?= Validator::e($note['updated_at']) ?></small><div class="mt-3"><a class="btn btn-sm btn-outline-primary" href="/notes/show?id=<?= (int)$note['id'] ?>">Открыть</a><a class="btn btn-sm btn-outline-secondary" href="/notes/edit?id=<?= (int)$note['id'] ?>">Изменить</a></div></div></div></div><?php endforeach; ?></div>
+<?php if (!$notes): ?>
+    <div class="empty-state">Заметок пока нет. Создайте первую запись.</div><?php else: ?>
+<div class="row g-3"><?php foreach ($notes as $note): ?>
+    <div class="col-md-6 col-lg-4">
+    <div class="card h-100">
+    <div class="card-body">
+    <div class="d-flex justify-content-between">
+        <span class="badge text-bg-secondary"><?= ['general'=>'Общая','place'=>'Место','character'=>'Персонаж','event'=>'Событие'][$note['type']] ?></span>
+        <?php if ($note['is_favorite']): ?><span title="Избранное">★</span><?php endif; ?></div>
+            <h2 class="h5 mt-2"><?= Validator::e($note['title']) ?></h2>
+            <p class="text-secondary"><?= Validator::e($note['description']) ?></p>
+            <small class="text-secondary"><?= Validator::e($note['updated_at']) ?></small>
+            <div class="mt-3"><a class="btn btn-sm btn-outline-primary" href="/notes/show?id=<?= (int)$note['id'] ?>">Открыть</a>
+            <a class="btn btn-sm btn-outline-secondary" href="/notes/edit?id=<?= (int)$note['id'] ?>">Изменить</a>
+    </div></div></div></div>
+    <?php endforeach; ?>
+</div>
 <?php endif; ?>
